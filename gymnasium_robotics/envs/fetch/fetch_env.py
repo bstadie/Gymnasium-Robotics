@@ -117,11 +117,8 @@ def get_base_fetch_env(RobotEnvClass: Union[MujocoPyRobotEnv, MujocoRobotEnv]):
                 gripper_vel,
             ) = self.generate_mujoco_observations()
 
-            full_goal = False
             if not self.has_object:
                 achieved_goal = grip_pos.copy()
-            elif full_goal is True:
-                achieved_goal = np.concatenate([grip_pos.copy(), np.squeeze(object_pos.copy())])
             else:
                 achieved_goal = np.squeeze(object_pos.copy())
 
@@ -241,7 +238,7 @@ class MujocoPyFetchEnv(get_base_fetch_env(MujocoPyRobotEnv)):
         self.sim.forward()
 
     def _viewer_setup(self):
-        lookat = self._get_gripper_xpos()
+        lookat = self.get_gripper_xpos()
         for idx, value in enumerate(lookat):
             self.viewer.cam.lookat[idx] = value
         assert self.viewer is not None

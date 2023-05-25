@@ -3,7 +3,6 @@ from gymnasium.envs.registration import register
 
 from gymnasium_robotics.core import GoalEnv
 from gymnasium_robotics.envs.maze import maps
-from gymnasium_robotics.envs.multiagent_mujoco import mamujoco_v0
 
 
 def register_robotics_envs():
@@ -20,34 +19,6 @@ def register_robotics_envs():
         }
 
         # Fetch
-        register(
-            id=f"FetchReachObstacle{suffix}-v2",
-            entry_point="gymnasium_robotics.envs.fetch.fetch_reach_obstacle:MujocoFetchReachObstacleEnv",
-            kwargs=kwargs,
-            max_episode_steps=50,
-        )
-
-        register(
-            id=f"FetchPickObstacle{suffix}-v2",
-            entry_point="gymnasium_robotics.envs.fetch.fetch_pick_and_place_obstacles:MujocoFetchPickAndPlaceEnv",
-            kwargs=kwargs,
-            max_episode_steps=70,
-        )
-
-        register(
-            id=f"FetchPushObstacle{suffix}-v2",
-            entry_point="gymnasium_robotics.envs.fetch.push_obstacle:MujocoFetchPushEnv",
-            kwargs=kwargs,
-            max_episode_steps=80,
-        )
-
-        register(
-            id=f"FetchDoorOpening{suffix}-v2",
-            entry_point="gymnasium_robotics.envs.fetch.door_opening:MujocoFetchDoorOpening",
-            kwargs=kwargs,
-            max_episode_steps=50,
-        )
-
         register(
             id=f"FetchSlide{suffix}-v1",
             entry_point="gymnasium_robotics.envs.fetch.slide:MujocoPyFetchSlideEnv",
@@ -85,6 +56,13 @@ def register_robotics_envs():
 
         register(
             id=f"FetchReach{suffix}-v2",
+            entry_point="gymnasium_robotics.envs.fetch.reach:MujocoPyFetchReachEnv",
+            kwargs=kwargs,
+            max_episode_steps=50,
+        )
+
+        register(
+            id=f"FetchReach{suffix}-v3",
             entry_point="gymnasium_robotics.envs.fetch.reach:MujocoFetchReachEnv",
             kwargs=kwargs,
             max_episode_steps=50,
@@ -1132,18 +1110,4 @@ def register_robotics_envs():
     )
 
 
-__version__ = "1.2.2"
-
-
-try:
-    import sys
-
-    from farama_notifications import notifications
-
-    if (
-        "gymnasium_robotics" in notifications
-        and __version__ in notifications["gymnasium_robotics"]
-    ):
-        print(notifications["gymnasium_robotics"][__version__], file=sys.stderr)
-except Exception:  # nosec
-    pass
+__version__ = "1.2.0"
